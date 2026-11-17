@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Famzy's Smile Challenge</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg,#a18cd1,#fbc2eb,#fad0c4);
+  overflow-x: hidden;
+}
+
+.decoration {
+  position: fixed;
+  font-size: 35px;
+  animation: float 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.d1 {top: 8%;left: 8%;}
+.d2 {top: 15%;right: 8%;animation-delay: 1s;}
+.d3 {bottom: 10%;left: 10%;animation-delay: 2s;}
+.d4 {bottom: 12%;right: 10%;animation-delay: .5s;}
+
+@keyframes float {
+  50% {transform: translateY(-18px) rotate(12deg);}
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(255,255,255,.96);
+  border-radius: 30px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(70,30,100,.18);
+  position: relative;
+  z-index: 2;
+}
+
+.badge {
+  display: inline-block;
+  background: #f8e8ff;
+  color: #9854bd;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-family: 'Fredoka',sans-serif;
+  font-size: 30px;
+  color: #70439a;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 22px;
+  line-height: 1.6;
+}
+
+.progress {
+  height: 9px;
+  background: #eee5f5;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg,#a18cd1,#f093fb);
+  transition: width .4s;
+}
+
+.counter {
+  color: #999;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.question-box {
+  background: #faf5ff;
+  border: 2px solid #f0e2fa;
+  border-radius: 22px;
+  min-height: 145px;
+  padding: 25px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.question {
+  font-family: 'Fredoka',sans-serif;
+  font-size: 21px;
+  color: #49345c;
+  line-height: 1.5;
+  animation: appear .4s ease;
+}
+
+@keyframes appear {
+  from {opacity:0;transform:translateY(10px);}
+  to {opacity:1;transform:translateY(0);}
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+button {
+  border: none;
+  border-radius: 15px;
+  padding: 14px 22px;
+  font-family: 'Fredoka',sans-serif;
+  font-size: 17px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+button:active {
+  transform: scale(.96);
+}
+
+.yes {
+  background: #a18cd1;
+  color: white;
+  flex: 1;
+}
+
+.no {
+  background: #ffe4ef;
+  color: #b44b7c;
+  flex: 1;
+}
+
+.feedback {
+  background: #fff1f8;
+  color: #8a4c79;
+  padding: 20px;
+  border-radius: 18px;
+  margin-top: 20px;
+  font-weight: 800;
+  line-height: 1.6;
+}
+
+.next {
+  width: 100%;
+  margin-top: 18px;
+  background: #70439a;
+  color: white;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.final-emoji {
+  font-size: 65px;
+  margin: 15px 0;
+  animation: float 2s infinite;
+}
+
+.final-message {
+  background: #faf0ff;
+  padding: 24px 18px;
+  border-radius: 20px;
+  color: #70439a;
+  font-family: 'Fredoka',sans-serif;
+  font-size: 20px;
+  line-height: 1.6;
+  margin: 20px 0;
+}
+
+.restart {
+  background: #a18cd1;
+  color: white;
+  width: 100%;
+}
+
+.footer {
+  margin-top: 22px;
+  color: #aaa;
+  font-size: 12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="decoration d1">🌸</div>
+<div class="decoration d2">🦋</div>
+<div class="decoration d3">✨</div>
+<div class="decoration d4">💜</div>
+
+<main class="card">
+
+  <div class="badge">A LITTLE FUN CORNER 🌷</div>
+
+  <h1>Hey, Famzy! 💜</h1>
+
+  <p class="subtitle">
+    A little collection of funny questions to brighten your day.
+    No pressure, no serious business. Just enjoy! 😊
+  </p>
+
+  <div id="quiz">
+
+    <div class="progress">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+
+    <div class="counter" id="counter">
+      Question 1 of 10
+    </div>
+
+    <div class="question-box">
+      <p class="question" id="question"></p>
+    </div>
+
+    <div id="answer-buttons" class="buttons">
+      <button class="yes" onclick="answer('yes')">
+        Absolutely 😂
+      </button>
+
+      <button class="no" onclick="answer('no')">
+        Not really 🙈
+      </button>
+    </div>
+
+    <div id="feedback-area" class="hidden">
+
+      <div class="feedback" id="feedback"></div>
+
+      <button class="next" onclick="nextQuestion()">
+        Next Question ➜
+      </button>
+
+    </div>
+
+  </div>
+
+  <div id="final" class="hidden">
+
+    <div class="final-emoji">🌸🦋💜</div>
+
+    <h1>Well Done, Famzy!</h1>
+
+    <div class="final-message">
+      You made it through the Smile Challenge! 😂
+
+      <br><br>
+
+      Remember, you don't have to be perfect,
+      funny or talkative to be appreciated.
+
+      <br><br>
+
+      Keep being yourself, keep learning,
+      keep smiling and never underestimate
+      the little happiness you bring to a room.
+
+      <br><br>
+
+      Have a wonderful day! 🌷
+    </div>
+
+    <button class="restart" onclick="restartQuiz()">
+      Play Again 🔄
+    </button>
+
+  </div>
+
+  <div class="footer">
+    Made with kindness, laughter and good vibes 💜
+  </div>
+
+</main>
+
+<script>
+
+const questions = [
+
+  {
+    q: "Famzy, if laughing were a school subject, would you be the class prefect? 😂",
+    yes: "I knew it! 😂 We might need to give you a distinction!",
+    no: "Really? Then who is secretly controlling the laughter department? 🤣"
+  },
+
+  {
+    q: "If your school bag could talk, would it expose all the things you hide inside it? 🎒",
+    yes: "Your bag needs a lawyer immediately! 😂",
+    no: "Hmm! That bag is clearly keeping some serious secrets! 🤐"
+  },
+
+  {
+    q: "If you became the principal for one day, would you cancel homework? 🏫",
+    yes: "The entire school just voted for you! 😂",
+    no: "Ah! So you're going to make everybody work harder? Madam Principal! 😭"
+  },
+
+  {
+    q: "If someone offered you free food or an extra hour of sleep, which would win? 🍕",
+    yes: "A very important decision! Food deserves serious consideration! 😂",
+    no: "Sleep has entered the competition and is not playing around! 😴"
+  },
+
+  {
+    q: "If you could become invisible for 10 minutes, would you use the power to escape a boring lesson? 🪄",
+    yes: "Caught in 4K! 😂 The invisible student has been identified!",
+    no: "What a disciplined citizen! Even invisibility cannot distract you! 😆"
+  },
+
+  {
+    q: "Do you think teachers secretly have a button that makes students behave? 🤔",
+    yes: "If that button exists, somebody should please tell us where it is! 😂",
+    no: "So all this classroom management is done manually? Respect! 😭"
+  },
+
+  {
+    q: "If your phone could describe you in three words, would it say 'battery always low'? 📱",
+    yes: "Your phone deserves a charging allowance! 🔋😂",
+    no: "Then your phone is clearly living a very comfortable life! 🤣"
+  },
+
+  {
+    q: "If you were given the power to rename Monday, what would you call it? 😭",
+    yes: "Anything but Monday, I hope! That day needs a rebrand! 😂",
+    no: "You're accepting Monday as it is? That's bravery! 😭"
+  },
+
+  {
+    q: "If a chicken challenged you to a race, would you accept? 🐔",
+    yes: "Please don't embarrass yourself in front of the chicken! 🤣",
+    no: "Wise decision. That chicken might have been training! 😂"
+  },
+
+  {
+    q: "Final question: Do you agree that a little laughter can make an ordinary school day better? 💜",
+    yes: "Correct answer! The Smile Challenge has officially succeeded! 🌸",
+    no: "Even the chicken from Question 9 disagrees with you! 😂"
+  }
+
+];
+
+let current = 0;
+
+const question = document.getElementById("question");
+const counter = document.getElementById("counter");
+const progress = document.getElementById("progress");
+const buttons = document.getElementById("answer-buttons");
+const feedbackArea = document.getElementById("feedback-area");
+const feedback = document.getElementById("feedback");
+
+function renderQuestion() {
+
+  question.textContent = questions[current].q;
+
+  counter.textContent =
+    `Question ${current + 1} of ${questions.length}`;
+
+  progress.style.width =
+    `${((current + 1) / questions.length) * 100}%`;
+
+  question.style.animation = "none";
+  void question.offsetWidth;
+  question.style.animation = "appear .4s ease";
+
+  buttons.classList.remove("hidden");
+  feedbackArea.classList.add("hidden");
+
+}
+
+function answer(choice) {
+
+  feedback.textContent = questions[current][choice];
+
+  buttons.classList.add("hidden");
+  feedbackArea.classList.remove("hidden");
+
+}
+
+function nextQuestion() {
+
+  current++;
+
+  if (current < questions.length) {
+
+    renderQuestion();
+
+  } else {
+
+    document.getElementById("quiz").classList.add("hidden");
+
+    document.getElementById("final").classList.remove("hidden");
+
+  }
+
+}
+
+function restartQuiz() {
+
+  current = 0;
+
+  document.getElementById("final").classList.add("hidden");
+
+  document.getElementById("quiz").classList.remove("hidden");
+
+  renderQuestion();
+
+}
+
+renderQuestion();
+
+</script>
+
+</body>
+</html>
